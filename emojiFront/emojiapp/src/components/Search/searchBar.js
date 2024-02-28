@@ -1,32 +1,46 @@
 import { useState } from "react";
+import "../../Styles/bar.css"
 
-const SearchBar = ({setResults}) => {
-    const [input, setInput] = useState(null)
+const SearchBar = ({ setValueEmoji, toggleDarkMode, darkMode }) => {
+  const [value, setValue] = useState('');
+  const [error, setError] = useState(false);
 
-    const fetchData = (value) => {
-      fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((json) =>{
-        console.log(json)
-        const result = json.filter((user) =>{
-          return value && user && user.name && user.name.toLowerCase().includes(value);
-        });
-        setResults(result);
-      })
-      
-    };
-    const handleChange = (value) => {
-      setInput(value);
-      fetchData(value);
-    };
-  
-    return (
-      <input
-        placeholder="Search Emoji"
-        value={input}
-        onChange={(e) => handleChange(e.target.value)}
-      />
-    );
+  const handleSearch = e => {
+      e.preventDefault();
+      if(value === ''){
+          setError(true);
+          setTimeout(()=>setError(false), 2000);
+          return;
+      }
+      setValueEmoji(value);
+      console.log(value);
   }
+  const allEmojis = () => {
+      setValueEmoji('');
+  }
+
+  return (
+      <section className={`form ${darkMode?"dark-mode":""}`}>
+          <form onSubmit={handleSearch}>
+              <input 
+                  type="text" 
+                  placeholder="some emoji word..." 
+                  onChange={e => setValue(e.target.value)}    
+              />
+              <button
+                  type="button"
+                  onClick={allEmojis}
+              >
+                  All
+              </button>
+              <div className="toggle-box" onClick={toggleDarkMode}>
+                  <div className="toggle-circle"></div>
+              </div>
+          </form>
+          { error && <p className="error">Input is empy</p> }
+      </section>
+  );
+}
+
 
 export default SearchBar;
