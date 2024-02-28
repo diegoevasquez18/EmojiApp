@@ -1,19 +1,32 @@
-import ReactSearchBox from "react-search-box";
-import { useFetch } from "../../hooks/useApiEmoji";
+import { useState } from "react";
 
-export default function App() {
+const SearchBar = ({setResults}) => {
+    const [input, setInput] = useState(null)
 
-    const { data } = useFetch("http://jsonplaceholder.typicode.com/users");
+    const fetchData = (value) => {
+      fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((json) =>{
+        console.log(json)
+        const result = json.filter((user) =>{
+          return value && user && user.name && user.name.toLowerCase().includes(value);
+        });
+        setResults(result);
+      })
+      
+    };
+    const handleChange = (value) => {
+      setInput(value);
+      fetchData(value);
+    };
   
     return (
-      <ReactSearchBox
+      <input
         placeholder="Search Emoji"
-        onFocus={() => {;
-        }}
-        onChange={(value) => console.log(value)}
-        autoFocus
-        leftIcon={<>🎨</>}
-        iconBoxSize="48px"
+        value={input}
+        onChange={(e) => handleChange(e.target.value)}
       />
     );
   }
+
+export default SearchBar;
