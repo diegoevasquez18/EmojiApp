@@ -8,5 +8,5 @@ export const SearchEmoji = (value) => {
             response.push(item);
         }
     })
-    return value === "" ? response : response.slice(0, 24);
+    return value === "" ? response : response.slice(0, 20);
 }

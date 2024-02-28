@@ -8,7 +8,7 @@ import Item from './components/Cards/emojiCard';
 
 function App() {
 
-  const [valueEmoji, setValueEmoji] = useState('smile');
+  const [valueEmoji, setValueEmoji] = useState('weather');
   const [darkMode, setDarkMode] = useState(false);
 
   const toggleDarkMode = () => {
