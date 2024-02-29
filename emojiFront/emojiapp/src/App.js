@@ -1,26 +1,20 @@
 import './App.css';
-import { useState } from "react";
+import { BrowserRouter, Routes, Route} from "react-router-dom"
 import Index from './components/indexEmoji';
 import NavBarIndex from './components/Nav/nav';
-import SearchBar from './components/Search/searchBar';
-import SearchResult from "./components/Search/searchResult"
-import Item from './components/Cards/emojiCard';
+import Animated from './components/Pages/animated';
 
 function App() {
 
-  const [valueEmoji, setValueEmoji] = useState('weather');
-  const [darkMode, setDarkMode] = useState(false);
-
-  const toggleDarkMode = () => {
-    setDarkMode(current => !current);
-  }
-
-  return (
-    <div className={`App ${darkMode?"darkbg":""}`}>
+ return (
+    <div>
+      <BrowserRouter>
       <NavBarIndex />
-      <Index />
-      <SearchBar setValueEmoji={setValueEmoji} toggleDarkMode={toggleDarkMode} darkMode={darkMode}/>
-      <SearchResult valueEmoji={valueEmoji} darkMode={darkMode}/>
+        <Routes >
+          <Route path="/" element={<Index />} />
+          <Route path="/animated" element={<Animated />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
